@@ -1,51 +1,39 @@
-// app/api/verify-user/route.js
-
 import { db } from "@/config/db";
 import { Users } from "@/config/schema";
+import { NextResponse } from "next/server";
 import { eq } from "drizzle-orm";
 
 export async function POST(req) {
-  try {
-    const { user } = await req.json(); // ✅ Correctly parse JSON body
+    const { user } = await req.json();
 
-    const userEmail = user?.primaryEmailAddress?.emailAddress;
-
-    console.log("Verifying user:", userEmail);
-
-    // 1. Check if user already exists in the database
-    const userInfo = await db
-      .select()
-      .from(Users)
-      .where(eq(Users.email, userEmail));
-
-    // 2. If user does not exist, insert them
-    if (userInfo.length === 0) {
-      const saveResult = await db
-        .insert(Users)
-        .values({
-          name: user?.fullName,
-          email: userEmail,
-          imageUrl: user?.imageUrl,
-        })
-        .returning();
-
-      return new Response(JSON.stringify({ result: saveResult[0] }), {
-        status: 200,
-        headers: { "Content-Type": "application/json" },
-      });
+    // Validate user object and required properties
+    if (!user || !user.primaryEmailAddress || !user.primaryEmailAddress.emailAddress) {
+        return NextResponse.json({ error: "Invalid user data" }, { status: 400 });
     }
 
-    // 3. If user already exists, return existing user
-    return new Response(JSON.stringify({ result: userInfo[0] }), {
-      status: 200,
-      headers: { "Content-Type": "application/json" },
-    });
+    try {
+        // Check if user already exists
+        const userInfo = await db.select().from(Users)
+            .where(eq(Users.email, user.primaryEmailAddress.emailAddress));
+        
+        console.log("User ", userInfo);
 
-  } catch (error) {
-    console.error("Error verifying user:", error);
-    return new Response(JSON.stringify({ error: "Something went wrong" }), {
-      status: 500,
-      headers: { "Content-Type": "application/json" },
-    });
-  }
+        // If user does not exist, add new user to database
+        if (userInfo.length === 0) {
+            const saveResult = await db.insert(Users)
+                .values({
+                    name: user.fullName,
+                    email: user.primaryEmailAddress.emailAddress,
+                    imageUrl: user.imageUrl,
+                }).returning({ Users });
+
+            return NextResponse.json({ result: saveResult[0].Users });
+        }
+
+        // Return existing user info
+        return NextResponse.json({ result: userInfo[0] });
+    } catch (e) {
+        console.error("Error occurred:", e); // Log the error for debugging
+        return NextResponse.json({ error: "An error occurred while processing your request." }, { status: 500 });
+    }
 }
