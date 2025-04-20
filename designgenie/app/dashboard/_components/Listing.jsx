@@ -8,7 +8,8 @@ import Link from 'next/link';
 import { db } from '@/config/db';
 import { AiGenertaedImage } from '@/config/schema';
 import { eq } from 'drizzle-orm';
-import RoomDesignCard from './RoomDesigncard';
+import RoomDesignCard from './RoomDesignCard';
+
 
 
 function Listing() {
