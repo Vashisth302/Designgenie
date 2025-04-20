@@ -2,13 +2,20 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer utilities {
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.before-after-slider img{
+  height: 200px !important;
+  max-height: 200px;
+}
+
+@layer urilities {
   .text-balance {
     text-wrap: balance;
   }
 }
-
-
 
 @layer base {
   :root {
@@ -65,8 +72,6 @@
     --chart-5: 340 75% 55%;
   }
 }
-
-
 
 @layer base {
   * {

@@ -8,9 +8,20 @@ import { Button } from '@/components/ui/button';
 import axios from 'axios';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { storage } from '@/config/firebaseConfig';
+import { useUser } from '@clerk/nextjs';
+import CustomLoading from './_components/CustomLoading';
+import AiOutputDialog from '../_components/AiOutputDialog';
+
 
 function CreateNew() {
+  
+  const{user}=useUser();
   const [formData, setFormData] = useState([]);
+  const [loading,setLoading] =useState(false);
+  const [aiOutputImage,setAiOutputImage]=useState()
+  const [orgImage,setOrgImage]=useState();
+  const [openOutputDialog,SetOpenOutputDialog]=useState(false);
+  // const[outputResult,setOutputResult]=useState();
   const onHandleInputChange = (value, fieldName) => {
     setFormData(prev => ({
       ...prev,
@@ -21,28 +32,33 @@ function CreateNew() {
   }
 
   const GenerateAiImage = async () => {
-    const rawImageUrl=await SaveRawImageToFirebase();
+    setLoading(true); // Output Result
+    const rawImageUrl = await SaveRawImageToFirebase();
     const result = await axios.post('/api/resdesign-room', {
-      imageUrl:rawImageUrl,
-      roomType:formData?.roomType,
-      designType:formData?.designType,
-      additionalReq:formData?.AdditionalReq
+      imageUrl: rawImageUrl,
+      roomType: formData?.roomType,
+      designType: formData?.designType,
+      additionalReq: formData?.AdditionalReq,
+      userEmail:user?.primaryEmailAddress?.emailAddress
     });
-    console.log(result,data);
-
+    console.log(result, result.data);
+    setAiOutputImage(result.data.result);
+    SetOpenOutputDialog(true);
+    setLoading(false);
   }
 
-  const SaveRawImageToFirebase=async()=>{
+  const SaveRawImageToFirebase = async () => {
     //save image
-    const fileName=Date.now()+"_raw.png";
-    const ImageRef=ref(storage,'room-redesign/'+fileName);
+    const fileName = Date.now() + "_raw.png";
+    const ImageRef = ref(storage, 'room-redesign/' + fileName);
 
-    await uploadBytes(ImageRef,formData.image).then(resp=>{
+    await uploadBytes(ImageRef, formData.image).then(resp => {
       console.log('file Upload...')
     })
-// uploaded file image url
-    const downloadUrl=await getDownloadURL(ImageRef);
+    // uploaded file image url
+    const downloadUrl = await getDownloadURL(ImageRef);
     console.log(downloadUrl);
+    setOrgImage(downloadUrl);
     return downloadUrl;
 
 
@@ -75,7 +91,11 @@ function CreateNew() {
 
         </div>
       </div>
-
+        <CustomLoading loading={loading}/>
+        <AiOutputDialog openDialog={openOutputDialog} closeDialog={()=>SetOpenOutputDialog(false)}
+          orgImage={orgImage}
+          aiImageUrl={aiOutputImage}
+          />
     </div>
   )
 }

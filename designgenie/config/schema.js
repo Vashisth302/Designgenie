@@ -7,11 +7,11 @@ export const Users = pgTable("users", {
     imageUrl: varchar("imageUrl").notNull(),
 });
 
-export const AiGenertaedImage=pgTable('aiGeneratedImage',{
+export const AiGenertaedImage = pgTable('aiGeneratedImage', {
     id: serial("id").primaryKey(),
     roomType: varchar("roomType").notNull(),
-   designType: varchar("designType").notNull(),
+    designType: varchar("designType").notNull(),
     orgImage: varchar(" orgImage").notNull(),
     aiImage: varchar("aiImage").notNull(),
-    userEmail: varchar("userEmail").notNull()
-})
+    userEmail: varchar("userEmail").notNull(),
+});

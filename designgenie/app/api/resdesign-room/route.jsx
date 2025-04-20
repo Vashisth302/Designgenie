@@ -1,3 +1,9 @@
+import { AiGenertaedImage } from "@/config/schema";
+import { storage } from "@/config/firebaseConfig";
+import { db } from "@/config/db";
+import { useUser } from "@clerk/nextjs";
+import axios from "axios";
+import { getDownloadURL,ref,uploadString } from "firebase/storage";
 import { NextResponse } from "next/server";
 import Replicate from "replicate";
 
@@ -6,8 +12,12 @@ const replicate = new Replicate({
 });
 
 export async function POST(req) {
-    const {user}=useUser();
-    const { imageUrl, roomType, designType, additionalReq } = await req.json();
+    //const { user } = useUser();
+    const { imageUrl, roomType, designType, additionalReq, userEmail } = await req.json();
+
+
+    // convert Image to AI Image
+
 
     try {
         const input = {
@@ -15,28 +25,47 @@ export async function POST(req) {
             prompt: 'A' + roomType + ' with a' + designType + "style interior" + additionalReq,
         };
 
-      //  const output = await replicate.run("adirik/interior-design:76604baddc85b1b4616e1c6475eca080da339c8875bd4996705440484a6eac38", { input });
-    
+        //  const output = await replicate.run("adirik/interior-design:76604baddc85b1b4616e1c6475eca080da339c8875bd4996705440484a6eac38", { input });
 
-       // console.log(output);
-       // return NextResponse.json({ result: output });
 
-       const output="https://replicate.com/p/5tqds749vsrma0cmndytv248rm.png"
+        // console.log(output);
+        // return NextResponse.json({ result: output });
 
-        // Convert the output URL to BASE64 Image
-        const base64Image=await ConvertImageToBase64(output);       // Save Base64 to Appwrite Storage
-        // Save Base64 to Firebase
-const fileName=Date.now()+'.png';
-const storageRef=ref (storage,' room-redesign/'+fileName);
-await uploadString(storageRef, base64Image, 'data_url');
-const downloadUrl=await getDownloadURL(storageRef);
-console.log(downloadUrl);
-// return NextResponse.json({'result': downloadUrl
-// Save All to Database
-const dbResult=await db.insert
+         const output = "https://replicate.com/p/5tqds749vsrma0cmndytv248rm.png"
 
-    } catch (e) {
+        // // Convert the output URL to BASE64 Image
+        const base64Image = await ConvertImageToBase64(output);
+
+        // // Save Base64 to Firebase
+
+        const fileName = Date.now() + '.png';
+        const storageRef = ref(storage, ' room-redesign/' + fileName);
+        await uploadString(storageRef, base64Image, 'data_url');
+        const downloadUrl = await getDownloadURL(storageRef);
+        console.log(downloadUrl);
+        // return NextResponse.json({'result': downloadUrl});
+
+        // // Save All to Database
+        const dbResult = await db.insert(AiGenertaedImage).values({
+            roomType:roomType,
+            designType:designType,
+            orgImage:imageUrl,
+            aiImage:downloadUrl,
+            userEmail:userEmail
+        }).returning({id:AiGenertaedImage.id})
+        console.log(dbResult);
+        return NextResponse.json({'result': downloadUrl});
+
+    }
+     catch (e) {
         console.error(e);
         return NextResponse.json({ error: "Something went wrong" }, { status: 500 });
     }
+}
+
+async function ConvertImageToBase64(imageUrl){
+    const resp= await axios.get(imageUrl,{responseType:'arraybuffer'});
+    const base64ImageRaw=Buffer.from(resp.data).toString('base64');
+
+    return "data:image/png:base64,"+base64ImageRaw;
 }
