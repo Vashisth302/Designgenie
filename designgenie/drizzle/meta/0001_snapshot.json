@@ -1,0 +1,105 @@
+{
+  "id": "d3168bc1-8d28-4cdd-aa3b-875360eeaa16",
+  "prevId": "9814e1fb-87bf-4104-8c71-a5b33f54e84e",
+  "version": "7",
+  "dialect": "postgresql",
+  "tables": {
+    "public.aiGeneratedImage": {
+      "name": "aiGeneratedImage",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "roomType": {
+          "name": "roomType",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "designType": {
+          "name": "designType",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        " orgImage": {
+          "name": " orgImage",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "aiImage": {
+          "name": "aiImage",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "userEmail": {
+          "name": "userEmail",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.users": {
+      "name": "users",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "email": {
+          "name": "email",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "imageUrl": {
+          "name": "imageUrl",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    }
+  },
+  "enums": {},
+  "schemas": {},
+  "sequences": {},
+  "roles": {},
+  "policies": {},
+  "views": {},
+  "_meta": {
+    "columns": {},
+    "schemas": {},
+    "tables": {}
+  }
+}

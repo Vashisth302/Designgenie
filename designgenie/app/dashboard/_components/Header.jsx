@@ -19,8 +19,6 @@ function Header() {
 
         <div className='flex gap-4 items-center'>
             <div className='text-xl font-normal flex gap-3 p-2 items-center'>
-		        <Button className="text-white text-xl px-4 py-2 rounded-2xl bg-gradient-to-r from-pink-500 to-purple-500 hover:shadow-purple-900 shadow-2xl" href="#">Explor</Button>
-                <Button className="text-white text-xl px-4 py-2 rounded-2xl bg-gradient-to-r from-pink-500 to-purple-500 hover:shadow-purple-900 shadow-2xl" href="#">Gallery</Button>
                 <Link href={'/dashboard/create-new'}>
                 <Button className="text-white text-xl px-4 py-2 rounded-2xl bg-gradient-to-r from-pink-500 to-purple-500 hover:shadow-purple-900 shadow-2xl" href="http://localhost:3000/dashboard/create-new">Redesign yours</Button>
                 </Link>

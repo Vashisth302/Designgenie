@@ -5,6 +5,6 @@ export default defineConfig({
   schema: './config/schema.js',
   dialect: 'postgresql',
   dbCredentials: {
-    url: 'postgresql://account:npg_hvxmPIr84ZVC@ep-shrill-snow-a1lxvy90.ap-southeast-1.aws.neon.tech/Designgenie?sslmode=require',
+    url: 'postgresql://designdb_owner:npg_nJu5MRtXpb3a@ep-winter-cake-a81ca804-pooler.eastus2.azure.neon.tech/designdb?sslmode=require',
   },
 });

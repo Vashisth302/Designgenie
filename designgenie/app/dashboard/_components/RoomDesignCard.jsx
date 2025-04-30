@@ -2,7 +2,7 @@ import React from 'react'
 import ReactBeforeSliderComponent from 'react-before-after-slider-component';
 import 'react-before-after-slider-component/dist/build.css';
 
-function RoomDesignCard() {
+function RoomDesignCard({room}) {
   return (
     <div>
         <ReactBeforeSliderComponent

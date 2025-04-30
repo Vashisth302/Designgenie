@@ -20,7 +20,7 @@ function ImageSelection({ selectedImage }) { // Destructure as an object
                 <label htmlFor="upload-image">
                     <div
                         className={`p-28 border border-blue-950 bg-white rounded-xl flex items-center justify-center cursor-pointer hover:shadow-2xl overflow-hidden
-              ${file ? 'p-0 bg-white' : 'p-28'}`}
+              ${file ? 'p-0 bg-white' : 'p-15'}`}
                     >
                         {!file ? (
                             <Image
@@ -32,8 +32,8 @@ function ImageSelection({ selectedImage }) { // Destructure as an object
                         ) : (
                             <Image
                                 src={URL.createObjectURL(file)}
-                                width={300}
-                                height={300}
+                                width={450}
+                                height={450}
                                 className="object-cover w-[300] h-[300]"
                                 alt="Uploaded Room"
                             />

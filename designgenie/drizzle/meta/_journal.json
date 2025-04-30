@@ -8,6 +8,13 @@
       "when": 1742839472827,
       "tag": "0000_naive_spiral",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1745170145732,
+      "tag": "0001_absent_tigra",
+      "breakpoints": true
     }
   ]
 }

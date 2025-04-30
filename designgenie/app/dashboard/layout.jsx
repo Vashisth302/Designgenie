@@ -4,12 +4,12 @@ import Header from './_components/Header';
 function DashboardLayout({ children }) {
   return (
     <div>
-       <Header/>
+      <Header />
 
       <div>
         {children}
       </div>
-      
+
     </div>
   );
 }

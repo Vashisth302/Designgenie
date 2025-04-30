@@ -7,7 +7,7 @@ export const Users = pgTable("users", {
     imageUrl: varchar("imageUrl").notNull(),
 });
 
-export const AiGenertaedImage = pgTable('aiGeneratedImage', {
+export const AiGeneratedImage = pgTable('aiGeneratedImage', {
     id: serial("id").primaryKey(),
     roomType: varchar("roomType").notNull(),
     designType: varchar("designType").notNull(),

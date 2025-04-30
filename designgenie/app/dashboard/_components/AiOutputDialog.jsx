@@ -26,7 +26,7 @@ function AiOutputDialog({openDialog,closeDialog, aiImage, orgImage}) {
         imageUrl:aiImage
     }}
     secondImage={{
-        image:orgImage
+        imageUrl:orgImage
     } }
 />
         <Button onClick={()=>closeDialog(false)}>Close</Button>
