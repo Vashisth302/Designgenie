@@ -6,12 +6,11 @@ import DesignType from './_components/DesignType';
 import AdditionalReq from './AdditionalReq';
 import { Button } from '@/components/ui/button';
 import axios from 'axios';
-//import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
-
+import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { useUser } from '@clerk/nextjs';
 import CustomLoading from './_components/CustomLoading';
 import AiOutputDialog from '../_components/AiOutputDialog';
-// import { storage } from '@/config/firebaseConfig';
+import { storage } from '@/config/firebaseConfig';
 
 
 function CreateNew() {
@@ -50,6 +49,7 @@ function CreateNew() {
 
   const SaveRawImageToFirebase = async () => {
     const design = Date.now() + "_raw.png";
+    console.log(design)
     const imageRef = ref(storage, 'room-redesign/' + design);
 
     await uploadBytes(imageRef, formData.image).then(resp => {

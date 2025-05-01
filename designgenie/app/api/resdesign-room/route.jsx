@@ -1,7 +1,7 @@
 import { AiGeneratedImage } from "@/config/schema";
 import { db } from "@/config/db";
-import { storage } from "@/config/appwriteconfig";  // Appwrite storage import
-import { ID } from "@/config/appwriteconfig";
+import { storage } from "@/config/firebaseConfig";  
+import { ID } from "@/config/firebaseConfig";
 import { NextResponse } from "next/server";
 import axios from "axios";
 import Replicate from "replicate";

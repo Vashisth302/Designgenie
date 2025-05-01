@@ -1,4 +1,7 @@
 import React from 'react'
+import ReactBeforeSliderComponent from 'react-before-after-slider-component';
+import 'react-before-after-slider-component/dist/build.css';
+import { Button } from '@/components/ui/button';
 import {
     AlertDialog,
     AlertDialogAction,
@@ -10,9 +13,6 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
   } from "@/components/ui/alert-dialog"
-  import ReactBeforeSliderComponent from 'react-before-after-slider-component';
-import 'react-before-after-slider-component/dist/build.css';
-import { Button } from '@/components/ui/button';
 
 function AiOutputDialog({openDialog,closeDialog, aiImage, orgImage}) {
   return (
